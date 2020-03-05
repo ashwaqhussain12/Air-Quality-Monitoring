@@ -57,9 +57,74 @@ for row in sublst[:3]:
 	print('\n')
 """
 #printing tuple by tuple
-for subln in sublst:
-	print(" ".join(map(str, subln)))
+#for subln in sublst:
+	#print(" ".join(map(str, subln)))
 
 # Printing the length of list after Deleting NA values
 totdatar=len(sublst)
 print("Total no. of Rows After Deleting NA values: %d"%(totdatar))
+
+from pandas import read_csv
+from datetime import datetime
+import pandas as pd
+# load data
+def parse(x):
+	return datetime.strptime(x, '%Y %m %d %H')
+dataset = read_csv('PRSA_data.csv',  parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
+dataset.drop('No', axis=1, inplace=True)
+# manually specify column names
+dataset.columns = ['pollution', 'dew', 'temp', 'press', 'wnd_dir', 'wnd_spd', 'snow', 'rain']
+dataset.index.name = 'date'
+
+"""
+print(type(dataset))
+
+with pd.option_context('display.max_rows', None):  # more options can be specified also
+    print(dataset)
+
+print(dataset.count(axis=0))
+
+print(dataset.count(axis=1))
+"""
+
+# import numpy as np
+# import plotly
+# import matplotlib.pyplot as plt
+# 'exec(%matplotlib inline)'
+
+# import warnings
+# warnings.filterwarnings("ignore")
+
+# from fbprophet import Prophet
+
+
+# temp = dataset[['pollution', 'press']]
+# temp.columns = ['ds','y']
+# temp.y.plot()
+# temp.head()
+
+"""
+from matplotlib import pyplot
+values = dataset.values
+groups = [0, 1, 2, 3, 5, 6, 7]
+i = 1
+# plot each column
+pyplot.figure()
+for group in groups:
+	pyplot.subplot(len(groups), 1, i)
+	pyplot.plot(values[:, group])
+	pyplot.title(dataset.columns[group], y=0.5, loc='right')
+	i += 1
+pyplot.show()
+
+print(dataset.info())
+
+print(dataset.head())
+
+"""
+
+#print(dataset.index)
+
+#print(dataset[dataset.index < '2010-01-02 03:00:00'])
+
+print(dataset[['press']])
